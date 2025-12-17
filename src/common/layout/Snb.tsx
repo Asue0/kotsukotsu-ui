@@ -20,7 +20,7 @@ const Snb = () => {
             <ListItemButton
               key={s.path}
               component={NavLink}
-              to={s.path}
+              to={s.path ? s.path : "/"} // 타입 오류를 없애기 위한 임시방편
               sx={{
                 "&.active": {
                   bgcolor: "primary.main",

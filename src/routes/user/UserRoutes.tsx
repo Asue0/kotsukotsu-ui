@@ -35,7 +35,7 @@ const UserRoutes: RouteObject[] = [
       {
         path: "login",
         element: <LoginMainComponent />,
-        handle: { title: "login", showSnb: false },
+        handle: { title: "login", showSnb: true },
       },
     ],
   },
