@@ -16,18 +16,22 @@ const CommonLayout = () => {
       {/* <Outlet/>*/}
       {/*</main>*/}
       <main>
-        <div className="main_title_box">
+        <Box
+          display="flex"
+          width="100%"
+          height="100px"
+          alignItems="center"
+          p="10px"
+          sx={{ backgroundColor: "aquamarine" }}
+        >
           <span className="title_name">KotsuKotsu</span>
-        </div>
-
+        </Box>
         <Box display="flex">
           <Snb />
           <Card sx={{ height: 800, width: "100%", m: 1, p: 3 }}>
             <Outlet />
           </Card>
         </Box>
-
-        <div style={{ clear: "both" }} />
 
         {title}
       </main>

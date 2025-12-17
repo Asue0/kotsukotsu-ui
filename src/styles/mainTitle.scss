@@ -1,26 +1,5 @@
-.main_title_box {
-  display: flex;
-  width: max;
-  height: 100px;
-  background-color: aqua;
-  align-items: center;
-
-  .title_name {
-    font-size: 50px;
-    margin-left: 10px;
-    color: rgb(87, 82, 82);
-  }
-}
-
-.main_container {
-  .snb_container {
-    width: 200px;
-  }
-
-  .main_content {
-    width: 900px;
-    height: 900px;
-    background-color: rgb(233, 228, 228);
-    border-radius: 2;
-  }
+.title_name {
+  font-size: 50px;
+  margin-left: 10px;
+  color: rgb(87, 82, 82);
 }

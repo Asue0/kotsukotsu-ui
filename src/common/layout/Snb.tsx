@@ -10,12 +10,13 @@ const Snb = () => {
   return (
     <List sx={{ width: 200 }}>
       {routes.map((r) =>
-        r.children ? (
-          r.children.map((s) => (
-            // <ListItemButton key={s.path}>
-            //   <ListItemText primary={s.handle.title} />
-            // </ListItemButton>
+        r.children?.map((s) =>
+          // <ListItemButton key={s.path}>
+          //   <ListItemText primary={s.handle.title} />
+          // </ListItemButton>
 
+          // Router 페이지의 showSnb 속성이 ture면 노출
+          s.handle?.showSnb ? (
             <ListItemButton
               key={s.path}
               component={NavLink}
@@ -29,9 +30,9 @@ const Snb = () => {
             >
               <ListItemText primary={s.handle.title} />
             </ListItemButton>
-          ))
-        ) : (
-          <></>
+          ) : (
+            <></>
+          )
         )
       )}
     </List>
