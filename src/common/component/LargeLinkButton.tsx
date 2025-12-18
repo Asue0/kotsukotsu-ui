@@ -1,11 +1,11 @@
 import { Button, ButtonProps } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-type LinkButtonProps = ButtonProps & {
+type LargeLinkButtonProps = ButtonProps & {
   to: string;
 };
 
-const LargeButton = ({ children, to, ...props }: LinkButtonProps) => {
+const LargeLinkButton = ({ children, to, ...props }: LargeLinkButtonProps) => {
   return (
     <Button
       component={RouterLink}
@@ -19,4 +19,4 @@ const LargeButton = ({ children, to, ...props }: LinkButtonProps) => {
   );
 };
 
-export default LargeButton;
+export default LargeLinkButton;

@@ -10,6 +10,8 @@ const SampleUserMainComponent = withSuspense(SampleUserMain);
 // Login
 const LoginMain = lazy(() => import("pages/login/LoginMain.tsx"));
 const LoginMainComponent = withSuspense(LoginMain);
+const SignUpMain = lazy(() => import("pages/login/SignUpMain.tsx"));
+const SignUpMainomponent = withSuspense(SignUpMain);
 
 const UserRoutes: RouteObject[] = [
   {
@@ -36,6 +38,11 @@ const UserRoutes: RouteObject[] = [
         path: "login",
         element: <LoginMainComponent />,
         handle: { title: "login", showSnb: true },
+      },
+      {
+        path: "signup",
+        element: <SignUpMainomponent />,
+        handle: { title: "signup", showSnb: true },
       },
     ],
   },

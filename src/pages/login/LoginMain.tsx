@@ -1,4 +1,4 @@
-import LargeButton from "@/common/component/LargeButton";
+import LargeLinkButton from "@/common/component/LargeLinkButton";
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -20,17 +20,11 @@ const LoginMain = () => {
         width={400}
         sx={{ backgroundColor: "aqua" }}
       >
-        <Typography variant="h5">KotsuKotsu에 로그인</Typography>
+        <Typography variant="h4">KotsuKotsu에 로그인</Typography>
         <TextField label="아이디" variant="outlined" />
         <TextField label="비밀번호" type="password" variant="outlined" />
-        <LargeButton to="/test2">로그인</LargeButton>
-        <LargeButton to="/test">회원가입</LargeButton>
-        <Button component={RouterLink} to="test">
-          로그인
-        </Button>
-        <Button component={RouterLink} to="test2">
-          회원가입
-        </Button>
+        <LargeLinkButton to="/test2">로그인</LargeLinkButton>
+        <LargeLinkButton to="/signup">회원가입</LargeLinkButton>
 
         <Box display="flex" mx="auto" gap={2}>
           {/* <Typography>아이디 찾기</Typography> */}
