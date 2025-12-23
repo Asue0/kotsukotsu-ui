@@ -13,14 +13,18 @@ const SignUpMain = () => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(signupSchema) });
 
+  const onSubmit = ({ ...data }: FormData) => {
+    console.log(data);
+  };
+
   return (
-    <form onSubmit={handleSubmit(console.log)}>
-      <Box
-        display="flex"
-        sx={{ width: "100%", height: "100%" }}
-        alignItems="center"
-        justifyContent="center"
-      >
+    <Box
+      display="flex"
+      sx={{ width: "100%", height: "100%" }}
+      alignItems="center"
+      justifyContent="center"
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           display="flex"
           flexDirection="column"
@@ -36,7 +40,7 @@ const SignUpMain = () => {
             label="아이디"
             variant="outlined"
             error={!!errors.id}
-            helperText={errors.id?.message}
+            helperText={errors.id?.message || " "} // 공백을 추가함으로써 문구가 발생하지 않더라도 자리를 차지하도록 설정
             {...register("id")}
           />
           <TextField
@@ -44,7 +48,7 @@ const SignUpMain = () => {
             type="password"
             variant="outlined"
             error={!!errors.password}
-            helperText={errors.password?.message}
+            helperText={errors.password?.message || " "}
             {...register("password")}
           />
           <TextField
@@ -52,21 +56,21 @@ const SignUpMain = () => {
             type="password"
             variant="outlined"
             error={!!errors.passwordConfirm}
-            helperText={errors.passwordConfirm?.message}
+            helperText={errors.passwordConfirm?.message || " "}
             {...register("passwordConfirm")}
           />
           <TextField
             label="이메일"
             variant="outlined"
             error={!!errors.email}
-            helperText={errors.email?.message}
+            helperText={errors.email?.message || " "}
             {...register("email")}
           />
           <TextField
             label="이메일 확인"
             variant="outlined"
             error={!!errors.emailConfirm}
-            helperText={errors.emailConfirm?.message}
+            helperText={errors.emailConfirm?.message || " "}
             {...register("emailConfirm")}
           />
           <TextField label="전화번호" variant="outlined" />
@@ -74,8 +78,8 @@ const SignUpMain = () => {
             등록
           </Button>
         </Box>
-      </Box>
-    </form>
+      </form>
+    </Box>
   );
 };
 

@@ -11,7 +11,11 @@ const SampleUserMainComponent = withSuspense(SampleUserMain);
 const LoginMain = lazy(() => import("pages/login/LoginMain.tsx"));
 const LoginMainComponent = withSuspense(LoginMain);
 const SignUpMain = lazy(() => import("pages/login/SignUpMain.tsx"));
-const SignUpMainomponent = withSuspense(SignUpMain);
+const SignUpMainComponent = withSuspense(SignUpMain);
+
+// Calendar
+const CalendarMain = lazy(() => import("pages/calendar/CalendarMain"));
+const CalendarMainComponent = withSuspense(CalendarMain);
 
 const UserRoutes: RouteObject[] = [
   {
@@ -41,8 +45,13 @@ const UserRoutes: RouteObject[] = [
       },
       {
         path: "signup",
-        element: <SignUpMainomponent />,
+        element: <SignUpMainComponent />,
         handle: { title: "signup", showSnb: true },
+      },
+      {
+        path: "calendar",
+        element: <CalendarMainComponent />,
+        handle: { title: "calendar", showSnb: true },
       },
     ],
   },
