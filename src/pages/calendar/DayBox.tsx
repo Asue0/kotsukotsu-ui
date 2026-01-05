@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 
-const DayBox = () => {
+const DayBox = ({ day }: { day: number }) => {
   return (
     <Box
       width={150}
       height={150}
       sx={{ border: "1px solid gray", borderRadius: "5px" }}
     >
-      메롱
+      {day}
     </Box>
   );
 };
