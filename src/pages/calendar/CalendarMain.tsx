@@ -3,9 +3,13 @@ import DayBox from "./DayBox";
 import getCalendar from "@/mocks/getCalendar";
 
 const CalendarMain = () => {
-  const weekArr = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-  const mockCalendar = getCalendar(2026, 1);
-  const weekNum = mockCalendar.length / 7;
+  const MOCKDATE = { year: 2026, month: 1 }; // 임의로 날짜 설정
+
+  const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  const calendar = getCalendar(MOCKDATE.year, MOCKDATE.month);
+  const weekNum = calendar.length / 7;
+
+  console.log(calendar);
 
   return (
     <Box
@@ -21,9 +25,18 @@ const CalendarMain = () => {
       </Button>
       <Box display="flex" flexDirection="column" gap={1}>
         {Array.from({ length: weekNum }).map((_, week) => (
-          <Box display="flex" gap={1}>
-            {weekArr.map((_, index) => (
-              <DayBox day={mockCalendar[index + 7 * week]} />
+          <Box display="flex" gap={1} key={week}>
+            {WEEKARR.map((_, index) => (
+              <DayBox
+                day={calendar[index + 7 * week].day}
+                thisMonth={
+                  calendar[index + 7 * week].month === MOCKDATE.month
+                    ? true
+                    : false
+                }
+                data={calendar[index + 7 * week].data}
+                key={index}
+              />
             ))}
           </Box>
         ))}

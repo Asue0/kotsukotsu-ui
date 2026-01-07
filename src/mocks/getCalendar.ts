@@ -14,19 +14,27 @@ const getCalendar = (year: number, month: number) => {
   // 달력 첫줄에 표기될 이전 달의 날짜를 구함
   if (firstDay != 0) {
     for (let i = firstDay; i > 0; i--) {
-      days.push(new Date(year, month, 1 - i).getDate());
+      days.push({
+        month: new Date(year, month, 1 - i).getMonth(),
+        day: new Date(year, month, 1 - i).getDate(),
+        data: null,
+      });
     }
   }
 
   // 이번달 날짜 삽입
   for (let i = 1; i <= lastDay; i++) {
-    days.push(i);
+    days.push({ month: month + 1, day: i, data: null });
   }
 
   // 달력 마지막줄에 표기될 다음 달의 날짜를 구함
   if (lastDay2 != 6) {
     for (let i = 1; i < lastDay; i++) {
-      days.push(new Date(year, month + 1, i).getDate());
+      days.push({
+        month: new Date(year, month + 2, i).getMonth(),
+        day: new Date(year, month + 2, i).getDate(),
+        data: null,
+      });
     }
   }
 
