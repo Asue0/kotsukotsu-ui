@@ -2,15 +2,15 @@ import { Box, Typography } from "@mui/material";
 
 type propsType = {
   day: number;
-  thisMonth: boolean;
+  isThisMonth: boolean;
   data: string | null;
 };
 
 const DayBox = (props: propsType) => {
   return (
     <Box
-      width={150}
-      height={150}
+      width={130}
+      height={120}
       p={1}
       bgcolor={props.data !== null ? "#d3ed7c" : ""}
       sx={{
@@ -18,7 +18,7 @@ const DayBox = (props: propsType) => {
         borderRadius: "5px",
       }}
     >
-      <Typography color={props.thisMonth ? "" : "textDisabled"}>
+      <Typography color={props.isThisMonth ? "" : "textDisabled"}>
         {props.day}
       </Typography>
     </Box>
