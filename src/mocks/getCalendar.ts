@@ -1,20 +1,22 @@
+import CalendarType from "@/types/calendar/calendarType.type";
+
 // 달력 페이지 데이터 제작 함수
 const getCalendar = (year: number, month: number) => {
-  month -= 1;
   // 해당 년월에 1일이 무슨 요일인지를 구함
   const firstDay = new Date(year, month, 1).getDay();
   // 해당 년월의 마지막날이 30일인지 31일인지를 구함
-  const lastDay = new Date(year, month + 1, 0).getDate();
+  const lastDate = new Date(year, month + 1, 0).getDate();
 
   // 해당 년월의 마지막날이 무슨 요일인지를 구함
-  const lastDay2 = new Date(year, month + 1, 0).getDay();
+  const lastDay = new Date(year, month + 1, 0).getDay();
 
-  const days = [];
+  const days: CalendarType[] = [];
 
   // 달력 첫줄에 표기될 이전 달의 날짜를 구함
   if (firstDay != 0) {
     for (let i = firstDay; i > 0; i--) {
       days.push({
+        year: new Date(year, month, 1 - i).getFullYear(),
         month: new Date(year, month, 1 - i).getMonth(),
         day: new Date(year, month, 1 - i).getDate(),
         data: null,
@@ -23,16 +25,17 @@ const getCalendar = (year: number, month: number) => {
   }
 
   // 이번달 날짜 삽입
-  for (let i = 1; i <= lastDay; i++) {
-    days.push({ month: month + 1, day: i, data: null });
+  for (let i = 1; i <= lastDate; i++) {
+    days.push({ year: year, month: month, day: i, data: null });
   }
 
   // 달력 마지막줄에 표기될 다음 달의 날짜를 구함
-  if (lastDay2 != 6) {
-    for (let i = 1; i < lastDay; i++) {
+  if (lastDay != 6) {
+    for (let i = 1; i <= 6 - lastDay; i++) {
       days.push({
-        month: new Date(year, month + 2, i).getMonth(),
-        day: new Date(year, month + 2, i).getDate(),
+        year: new Date(year, month + 1, i).getFullYear(),
+        month: new Date(year, month + 1, i).getMonth(),
+        day: new Date(year, month + 1, i).getDate(),
         data: null,
       });
     }

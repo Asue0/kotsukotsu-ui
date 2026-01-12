@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 type propsType = {
   day: number;
   isThisMonth: boolean;
-  data: string | null;
+  data: string[] | null;
 };
 
 const DayBox = (props: propsType) => {

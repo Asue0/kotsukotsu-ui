@@ -28,7 +28,7 @@ const CommonLayout = () => {
         </Box>
         <Box display="flex" width="1700px">
           <Snb />
-          <Card sx={{ height: 900, width: "100%", m: 1, p: 3 }}>
+          <Card sx={{ height: 1100, width: "100%", m: 1, p: 3 }}>
             <Outlet />
           </Card>
         </Box>
