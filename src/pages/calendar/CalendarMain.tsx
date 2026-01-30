@@ -16,7 +16,7 @@ const CalendarMain = () => {
   const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
   const [calendar, setCalendar] = useState<CalendarType[]>(
-    getCalendar(currentYear, currentMonth)
+    getCalendar(currentYear, currentMonth),
   );
 
   console.log(currentYear);
@@ -86,10 +86,10 @@ const CalendarMain = () => {
           <Box display="flex" gap={1} key={week}>
             {WEEKARR.map((_, index) => (
               <DayBox
-                day={calendar[index + 7 * week].day}
+                date={calendar[index + 7 * week].date}
                 // 이번 달인지 체크
                 isThisMonth={
-                  calendar[index + 7 * week].month === currentMonth
+                  calendar[index + 7 * week].date.getMonth() === currentMonth
                     ? true
                     : false
                 }

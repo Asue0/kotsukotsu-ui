@@ -1,7 +1,5 @@
 interface CalendarType {
-  year: number;
-  month: number;
-  day: number;
+  date: Date;
   data: string[] | null;
 }
 export default CalendarType;

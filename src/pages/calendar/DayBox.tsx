@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 
 type DayBoxProps = {
-  day: number;
+  date: Date;
   isThisMonth: boolean;
   data: string[] | null;
 };
@@ -77,7 +77,7 @@ const DayBox = (props: DayBoxProps) => {
         onClick={handleClick}
       >
         <Typography color={props.isThisMonth ? "" : "textDisabled"}>
-          {props.day}
+          {props.date.getDate()}
         </Typography>
       </Box>
       {/** 메모 영역 */}
@@ -103,9 +103,9 @@ const DayBox = (props: DayBoxProps) => {
         <Box display="flex" flexDirection="column" gap={1}>
           {/** 기존 메모 데이터 */}
           {!props.data ? (
-            <Typography>해당 날짜에 기록이 없습니다.</Typography>
+            <Typography sx={{ mb: 4 }}>해당 날짜에 기록이 없습니다.</Typography>
           ) : (
-            <Typography>데이터가 있습니다.</Typography>
+            <Typography sx={{ mb: 4 }}>데이터가 있습니다.</Typography>
           )}
 
           {/** 새로운 데이터 입력 */}

@@ -16,9 +16,7 @@ const getCalendar = (year: number, month: number) => {
   if (firstDay != 0) {
     for (let i = firstDay; i > 0; i--) {
       days.push({
-        year: new Date(year, month, 1 - i).getFullYear(),
-        month: new Date(year, month, 1 - i).getMonth(),
-        day: new Date(year, month, 1 - i).getDate(),
+        date: new Date(year, month, 1 - i),
         data: null,
       });
     }
@@ -26,16 +24,14 @@ const getCalendar = (year: number, month: number) => {
 
   // 이번달 날짜 삽입
   for (let i = 1; i <= lastDate; i++) {
-    days.push({ year: year, month: month, day: i, data: null });
+    days.push({ date: new Date(year, month, i), data: null });
   }
 
   // 달력 마지막줄에 표기될 다음 달의 날짜를 구함
   if (lastDay != 6) {
     for (let i = 1; i <= 6 - lastDay; i++) {
       days.push({
-        year: new Date(year, month + 1, i).getFullYear(),
-        month: new Date(year, month + 1, i).getMonth(),
-        day: new Date(year, month + 1, i).getDate(),
+        date: new Date(year, month + 1, i),
         data: null,
       });
     }
