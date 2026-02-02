@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  MenuItem,
-  Popover,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Popover, Typography } from "@mui/material";
 import { useState } from "react";
+import BudgetForm from "./BudgetForm";
 
 type DayBoxProps = {
   date: Date;
@@ -54,12 +45,6 @@ const DayBox = (props: DayBoxProps) => {
 
   /** 데이터 입력 제어 */
 
-  const [budget, setBudget] = useState<string>("EXPENSES");
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setBudget(event.target.value);
-  };
-
   // const [amount, setAmount] = useState<number>(0);
 
   return (
@@ -71,8 +56,13 @@ const DayBox = (props: DayBoxProps) => {
         bgcolor={props.data !== null ? "#d3ed7c" : ""}
         sx={{
           border: "1px solid gray",
-          borderRadius: "5px",
+          borderRadius: "3px",
           position: "relative",
+          "&:hover": {
+            boxShadow: "4px 4px 12px rgba(0, 0, 0, 0.25)",
+          },
+          cursor: "pointer",
+          transition: "box-shadow 0.2s ease-in-out",
         }}
         onClick={handleClick}
       >
@@ -81,94 +71,48 @@ const DayBox = (props: DayBoxProps) => {
         </Typography>
       </Box>
       {/** 메모 영역 */}
-      <Popover
-        open={Boolean(position)}
-        // onClose={handleClose} // 메모의 바깥을 클릭하면 메모가 닫히게 됨 (현재는 주석 처리로 off중)
-        anchorReference="anchorPosition"
-        anchorPosition={
-          position ? { top: position.top, left: position.left } : undefined
-        }
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        PaperProps={{
-          sx: {
-            backgroundColor: "#FFF9C4",
-            padding: 2,
-            width: 300,
-          },
-        }}
-      >
-        <Box display="flex" flexDirection="column" gap={1}>
-          {/** 기존 메모 데이터 */}
-          {!props.data ? (
-            <Typography sx={{ mb: 4 }}>해당 날짜에 기록이 없습니다.</Typography>
-          ) : (
-            <Typography sx={{ mb: 4 }}>데이터가 있습니다.</Typography>
-          )}
+      {props.isThisMonth ? (
+        <Popover
+          open={Boolean(position)}
+          // onClose={handleClose} // 메모의 바깥을 클릭하면 메모가 닫히게 됨 (현재는 주석 처리로 off중)
+          anchorReference="anchorPosition"
+          anchorPosition={
+            position ? { top: position.top, left: position.left } : undefined
+          }
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          PaperProps={{
+            sx: {
+              backgroundColor: "#FFF9C4",
+              padding: 2,
+              width: 300,
+            },
+          }}
+        >
+          <Box display="flex" flexDirection="column" gap={1}>
+            {/** 기존 메모 데이터 */}
+            {!props.data ? (
+              <Typography sx={{ mb: 4 }}>
+                해당 날짜에 기록이 없습니다.
+              </Typography>
+            ) : (
+              <Typography sx={{ mb: 4 }}>데이터가 있습니다.</Typography>
+            )}
 
-          {/** 새로운 데이터 입력 */}
-          <Box display="flex" gap={1}>
-            <FormControl sx={{ minWidth: 80 }} size="small">
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={budget}
-                onChange={handleChange}
-                // 셀렉트 박스 내의 문자 색상 설정
-                renderValue={(value) => (
-                  <span style={{ fontWeight: 600 }}>
-                    {value === "EXPENSES" ? "지출" : "수입"}
-                  </span>
-                )}
-                sx={{
-                  color: budget === "EXPENSES" ? "red" : "blue",
-                  "& .MuiSelect-icon": {
-                    color: budget === "EXPENSES" ? "red" : "blue",
-                  },
-                }}
-              >
-                <MenuItem
-                  value={"EXPENSES"}
-                  sx={{ color: "red", fontWeight: 600 }}
-                >
-                  지출
-                </MenuItem>
-                <MenuItem
-                  value={"INCOME"}
-                  sx={{ color: "blue", fontWeight: 600 }}
-                >
-                  수입
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              type="number"
-              size="small"
-              placeholder="금액"
-              // value={amount}
-              // onChange={handleAmountChange}
-              sx={{
-                "& input": {
-                  color: budget === "EXPENSES" ? "red" : "blue",
-                  fontWeight: 600,
-                },
-              }}
-            />
+            {/** 새로운 데이터 입력 */}
+            <BudgetForm date={props.date} />
+
+            <Box display="flex" justifyContent="flex-end" gap={0.5}>
+              <Button>저장</Button>
+              <Button onClick={handleClose}>닫기</Button>
+            </Box>
           </Box>
-          <TextField
-            multiline
-            fullWidth
-            placeholder="메모"
-            variant="standard"
-          />
-          <Box display="flex" justifyContent="flex-end" gap={0.5}>
-            <Button>저장</Button>
-            <Button onClick={handleClose}>닫기</Button>
-          </Box>
-        </Box>
-      </Popover>
+        </Popover>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

@@ -17,6 +17,10 @@ const SignUpMainComponent = withSuspense(SignUpMain);
 const CalendarMain = lazy(() => import("pages/calendar/CalendarMain"));
 const CalendarMainComponent = withSuspense(CalendarMain);
 
+// Record
+const RecordMain = lazy(() => import("pages/record/RecordMain"));
+const RecordMainComponent = withSuspense(RecordMain);
+
 const UserRoutes: RouteObject[] = [
   {
     path: "/",
@@ -34,11 +38,6 @@ const UserRoutes: RouteObject[] = [
         handle: { title: "Home2", showSnb: true },
       },
       {
-        path: "test3",
-        element: <SampleUserMainComponent />,
-        handle: { title: "Home3", showSnb: true },
-      },
-      {
         path: "login",
         element: <LoginMainComponent />,
         handle: { title: "login", showSnb: true },
@@ -52,6 +51,11 @@ const UserRoutes: RouteObject[] = [
         path: "calendar",
         element: <CalendarMainComponent />,
         handle: { title: "calendar", showSnb: true },
+      },
+      {
+        path: "record",
+        element: <RecordMainComponent />,
+        handle: { title: "record", showSnb: true },
       },
     ],
   },
