@@ -1,5 +1,7 @@
+import DataTable from "./DataTable";
+
 const RecordMain = () => {
-  return <div>메롱</div>;
+  return <DataTable></DataTable>;
 };
 
 export default RecordMain;
