@@ -26,7 +26,7 @@ const CommonLayout = () => {
         >
           <span className="title_name">KotsuKotsu</span>
         </Box>
-        <Box display="flex" width="1700px">
+        <Box display="flex" width="max">
           <Snb />
           <Card sx={{ height: 1100, width: "100%", m: 1, p: 3 }}>
             <Outlet />

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState, useCallback, forwardRef, useImperativeHandle } from "react";
 import {
   Box,
   Table,
@@ -9,19 +9,20 @@ import {
   TableRow,
   Paper,
   Checkbox,
-  TextField,
   Button,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import TableRowData from "@/types/calendar/recordTableType.type";
+import TableRowComponent from "./TableRow";
+import { checkboxCellSx, headerCellSx } from "@/styles/record/tableStyle";
 
-export interface TableRowData {
+// 저장용 데이터 타입 (selected 필드 제외)
+interface SaveData {
   id: string;
-  selected: boolean;
   date: Dayjs | null;
   particulars: string;
   amount: string;
@@ -29,60 +30,23 @@ export interface TableRowData {
   memo: string;
 }
 
-const CATEGORIES = [
-  { value: "food", label: "식비" },
-  { value: "transport", label: "교통비" },
-  { value: "entertainment", label: "여가" },
-  { value: "shopping", label: "쇼핑" },
-  { value: "etc", label: "기타" },
-];
-
-// 입력 영역 스타일
-const cellInputSx = {
-  width: "100%",
-  "& .MuiInputBase-input": {
-    padding: "8px 12px",
-    fontSize: "0.875rem",
-  },
-  "& .MuiOutlinedInput-root": {
-    borderRadius: 0,
-    "& fieldset": {
-      borderColor: "#e0e0e0",
-    },
-    "&:hover fieldset": {
-      borderColor: "#9e9e9e",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#1976d2",
-      borderWidth: 1,
-    },
-  },
+// API 저장 함수 placeholder - 나중에 실제 API 함수로 교체
+const saveRecordApi = async (data: SaveData[]): Promise<void> => {
+  // TODO: 실제 API 호출 구현
+  // 예시:
+  // await axios.post('/api/records', data);
+  console.log("API 호출:", data);
 };
 
-// 헤더 스타일
-const headerCellSx = {
-  backgroundColor: "#f5f5f5",
-  fontWeight: 600,
-  fontSize: "0.875rem",
-  borderBottom: "2px solid #e0e0e0",
-  padding: "12px",
-};
+export interface DataTableRef {
+  getData: () => TableRowData[];
+}
 
-// 셀 스타일
-const cellSx = {
-  padding: "4px 8px",
-  borderBottom: "1px solid #e0e0e0",
-  verticalAlign: "middle",
-};
+interface DataTableProps {
+  onSave?: (data: SaveData[]) => void | Promise<void>;
+}
 
-// 체크박스 셀 스타일
-const checkboxCellSx = {
-  padding: "4px 8px",
-  borderBottom: "1px solid #e0e0e0",
-  width: 50,
-};
-
-const DataTable = () => {
+const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => {
   const [rows, setRows] = useState<TableRowData[]>([
     {
       id: "1",
@@ -91,39 +55,46 @@ const DataTable = () => {
       particulars: "",
       amount: "",
       category: "",
-      memo: "",
+      memo: "초기데이터 입니다.",
     },
   ]);
+
+  // 부모 컴포넌트에서 호출할 수 있는 함수 노출
+  useImperativeHandle(ref, () => ({
+    getData: () => rows,
+  }));
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     setRows((prev) => prev.map((row) => ({ ...row, selected: checked })));
   };
 
-  const handleSelectRow =
-    (id: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRows((prev) =>
-        prev.map((row) =>
-          row.id === id ? { ...row, selected: event.target.checked } : row,
-        ),
-      );
-    };
+  const handleSelectRow = useCallback((id: string, checked: boolean) => {
+    setRows((prev) =>
+      prev.map((row) => (row.id === id ? { ...row, selected: checked } : row)),
+    );
+  }, []);
 
-  const handleDateChange = (id: string) => (newDate: Dayjs | null) => {
+  const handleDateChange = useCallback((id: string, newDate: Dayjs | null) => {
     setRows((prev) =>
       prev.map((row) => (row.id === id ? { ...row, date: newDate } : row)),
     );
-  };
+  }, []);
 
-  const handleFieldChange =
-    (id: string, field: keyof TableRowData) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFieldChange = useCallback(
+    (
+      id: string,
+      field: keyof Omit<TableRowData, "id" | "selected" | "date">,
+      value: string,
+    ) => {
       setRows((prev) =>
         prev.map((row) =>
-          row.id === id ? { ...row, [field]: event.target.value } : row,
+          row.id === id ? { ...row, [field]: value } : row,
         ),
       );
-    };
+    },
+    [],
+  );
 
   const handleAddRow = () => {
     const newId = String(Date.now());
@@ -146,6 +117,25 @@ const DataTable = () => {
   };
 
   const selectedCount = rows.filter((row) => row.selected).length;
+
+  // 저장 버튼 클릭 핸들러
+  const handleSave = useCallback(async () => {
+    // selected 필드 제외하고 데이터 변환
+    const dataToSave: SaveData[] = rows.map((row) => ({
+      id: row.id,
+      date: row.date,
+      particulars: row.particulars,
+      amount: row.amount,
+      category: row.category,
+      memo: row.memo,
+    }));
+
+    if (onSave) {
+      await onSave(dataToSave);
+    } else {
+      await saveRecordApi(dataToSave);
+    }
+  }, [rows, onSave]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -180,90 +170,25 @@ const DataTable = () => {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell sx={checkboxCellSx}>
-                    <Checkbox
-                      checked={row.selected}
-                      onChange={handleSelectRow(row.id)}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <DatePicker
-                      value={row.date}
-                      onChange={handleDateChange(row.id)}
-                      slotProps={{
-                        textField: {
-                          size: "small",
-                          fullWidth: true,
-                          sx: cellInputSx,
-                        },
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      value={row.particulars}
-                      onChange={handleFieldChange(row.id, "particulars")}
-                      placeholder="거래내역"
-                      sx={cellInputSx}
-                    />
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      type="number"
-                      value={row.amount}
-                      onChange={handleFieldChange(row.id, "amount")}
-                      placeholder="금액"
-                      sx={cellInputSx}
-                    />
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <TextField
-                      fullWidth
-                      select
-                      variant="outlined"
-                      size="small"
-                      value={row.category}
-                      onChange={handleFieldChange(row.id, "category")}
-                      SelectProps={{
-                        native: true,
-                      }}
-                      sx={cellInputSx}
-                    >
-                      <option value="">분류</option>
-                      {CATEGORIES.map((cat) => (
-                        <option key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </option>
-                      ))}
-                    </TextField>
-                  </TableCell>
-                  <TableCell sx={cellSx}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      value={row.memo}
-                      onChange={handleFieldChange(row.id, "memo")}
-                      placeholder="메모"
-                      sx={cellInputSx}
-                    />
-                  </TableCell>
-                </TableRow>
+                <TableRowComponent
+                  key={row.id}
+                  row={row}
+                  onSelectChange={handleSelectRow}
+                  onDateChange={handleDateChange}
+                  onFieldChange={handleFieldChange}
+                />
               ))}
             </TableBody>
           </Table>
         </TableContainer>
 
         <Box
-          sx={{ mt: 2, display: "flex", gap: 1, justifyContent: "flex-end" }}
+          sx={{
+            mt: 2,
+            display: "flex",
+            gap: 1,
+            justifyContent: "space-between",
+          }}
         >
           <Button
             variant="outlined"
@@ -272,19 +197,26 @@ const DataTable = () => {
           >
             항목 추가
           </Button>
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={handleDeleteSelected}
-            disabled={selectedCount === 0}
-          >
-            선택 삭제 ({selectedCount})
-          </Button>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button variant="contained" onClick={handleSave}>
+              저장
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={handleDeleteSelected}
+              disabled={selectedCount === 0}
+            >
+              선택 삭제 ({selectedCount})
+            </Button>
+          </Box>
         </Box>
       </Box>
     </LocalizationProvider>
   );
-};
+});
+
+DataTable.displayName = "DataTable";
 
 export default DataTable;
