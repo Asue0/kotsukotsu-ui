@@ -1,4 +1,4 @@
-import { useState, useCallback, forwardRef, useImperativeHandle } from "react";
+import { useState, useCallback } from "react";
 import {
   Box,
   Table,
@@ -38,15 +38,7 @@ const saveRecordApi = async (data: SaveData[]): Promise<void> => {
   console.log("API 호출:", data);
 };
 
-export interface DataTableRef {
-  getData: () => TableRowData[];
-}
-
-interface DataTableProps {
-  onSave?: (data: SaveData[]) => void | Promise<void>;
-}
-
-const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => {
+const DataTable = () => {
   const [rows, setRows] = useState<TableRowData[]>([
     {
       id: "1",
@@ -60,9 +52,9 @@ const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => 
   ]);
 
   // 부모 컴포넌트에서 호출할 수 있는 함수 노출
-  useImperativeHandle(ref, () => ({
-    getData: () => rows,
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   getData: () => rows,
+  // }));
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
@@ -88,9 +80,7 @@ const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => 
       value: string,
     ) => {
       setRows((prev) =>
-        prev.map((row) =>
-          row.id === id ? { ...row, [field]: value } : row,
-        ),
+        prev.map((row) => (row.id === id ? { ...row, [field]: value } : row)),
       );
     },
     [],
@@ -130,12 +120,8 @@ const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => 
       memo: row.memo,
     }));
 
-    if (onSave) {
-      await onSave(dataToSave);
-    } else {
-      await saveRecordApi(dataToSave);
-    }
-  }, [rows, onSave]);
+    await saveRecordApi(dataToSave);
+  }, [rows]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -215,8 +201,6 @@ const DataTable = forwardRef<DataTableRef, DataTableProps>(({ onSave }, ref) => 
       </Box>
     </LocalizationProvider>
   );
-});
-
-DataTable.displayName = "DataTable";
+};
 
 export default DataTable;
