@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Table,
@@ -19,6 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import TableRowData from "@/types/calendar/recordTableType.type";
 import TableRowComponent from "./TableRow";
 import { checkboxCellSx, headerCellSx } from "@/styles/record/tableStyle";
+import mockData from "@/mocks/recordData";
 
 // 저장용 데이터 타입 (selected 필드 제외)
 interface SaveData {
@@ -39,23 +40,26 @@ const saveRecordApi = async (data: SaveData[]): Promise<void> => {
 };
 
 const DataTable = () => {
-  const [rows, setRows] = useState<TableRowData[]>([
-    {
-      id: "1",
-      selected: false,
-      date: dayjs(),
-      particulars: "",
-      amount: "",
-      category: "",
-      memo: "초기데이터 입니다.",
-    },
-  ]);
+  const [rows, setRows] = useState<TableRowData[]>([]);
+  const [resetKey, setResetKey] = useState(0); // 초기화 시 강제 재렌더용
 
-  // 부모 컴포넌트에서 호출할 수 있는 함수 노출
-  // useImperativeHandle(ref, () => ({
-  //   getData: () => rows,
-  // }));
+  /** 데이터 페칭 함수 - 나중에 구현할 버전 */
+  const fetchRows = async () => {
+    try {
+      // fetch나 axios를 사용하여 API 엔드포인트에서 데이터를 가져옴
+      // const response = await fetch('https://api.example.com/posts');
+      // const data: TableRowData[] = await response.json();
 
+      // 상태 업데이트: 받아온 데이터를 state에 저장
+      setRows(mockData);
+    } catch (error) {
+      console.error("데이터 로드 실패:", error);
+    } finally {
+      console.log("끝"); // 에러 방지용
+    }
+  };
+
+  /** 제어 함수 */
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     setRows((prev) => prev.map((row) => ({ ...row, selected: checked })));
@@ -102,8 +106,18 @@ const DataTable = () => {
     ]);
   };
 
+  const handleDeleteLastOne = () => {
+    setRows((prev) => prev.slice(0, -1));
+  };
+
   const handleDeleteSelected = () => {
     setRows((prev) => prev.filter((row) => !row.selected));
+  };
+
+  // 초기화 버튼 핸들러 - 초기 데이터를 다시 테이블에 반영
+  const handleReset = () => {
+    setRows(mockData);
+    setResetKey((prev) => prev + 1); // key를 변경하여 강제 재렌더링
   };
 
   const selectedCount = rows.filter((row) => row.selected).length;
@@ -123,9 +137,15 @@ const DataTable = () => {
     await saveRecordApi(dataToSave);
   }, [rows]);
 
+  /** useEffect */
+  useEffect(() => {
+    fetchRows();
+  }, []);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ p: 2 }}>
+        {/** 테이블 영역 */}
         <TableContainer
           component={Paper}
           sx={{ boxShadow: "none", border: "1px solid #e0e0e0" }}
@@ -157,7 +177,7 @@ const DataTable = () => {
             <TableBody>
               {rows.map((row) => (
                 <TableRowComponent
-                  key={row.id}
+                  key={`${resetKey}-${row.id}`}
                   row={row}
                   onSelectChange={handleSelectRow}
                   onDateChange={handleDateChange}
@@ -167,7 +187,7 @@ const DataTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
+        {/** 버튼 영역 */}
         <Box
           sx={{
             mt: 2,
@@ -176,16 +196,28 @@ const DataTable = () => {
             justifyContent: "space-between",
           }}
         >
-          <Button
-            variant="outlined"
-            startIcon={<AddIcon />}
-            onClick={handleAddRow}
-          >
-            항목 추가
-          </Button>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={handleAddRow}
+            >
+              항목 추가
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={handleDeleteLastOne}
+            >
+              마지막 항목 제거
+            </Button>
+          </Box>
           <Box sx={{ display: "flex", gap: 1 }}>
             <Button variant="contained" onClick={handleSave}>
               저장
+            </Button>
+            <Button variant="contained" color="error" onClick={handleReset}>
+              초기화
             </Button>
             <Button
               variant="contained"
