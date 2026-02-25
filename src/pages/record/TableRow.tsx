@@ -7,7 +7,7 @@ import TableRowData from "@/types/calendar/recordTableType.type";
 import { Checkbox, TableCell, TableRow, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
-import { memo, useRef } from "react";
+import { memo } from "react";
 
 interface RowProps {
   row: TableRowData;
@@ -32,10 +32,10 @@ const CATEGORIES = [
 const TableRowComponent = memo(
   ({ row, onSelectChange, onDateChange, onFieldChange }: RowProps) => {
     // 각 입력 필드의 ref (비제어 컴포넌트)
-    const particularsRef = useRef<HTMLInputElement>(null);
-    const amountRef = useRef<HTMLInputElement>(null);
-    const categoryRef = useRef<HTMLSelectElement>(null);
-    const memoRef = useRef<HTMLInputElement>(null);
+    // const particularsRef = useRef<HTMLInputElement>(null);
+    // const amountRef = useRef<HTMLInputElement>(null);
+    // const categoryRef = useRef<HTMLSelectElement>(null);
+    // const memoRef = useRef<HTMLInputElement>(null);
 
     return (
       <TableRow>
@@ -64,16 +64,11 @@ const TableRowComponent = memo(
             fullWidth
             variant="outlined"
             size="small"
-            inputRef={particularsRef}
-            defaultValue={row.particulars}
+            value={row.particulars}
             placeholder="거래내역"
             sx={cellInputSx}
-            onBlur={() =>
-              onFieldChange(
-                row.id,
-                "particulars",
-                particularsRef.current?.value ?? "",
-              )
+            onChange={(e) =>
+              onFieldChange(row.id, "particulars", e.target.value)
             }
           />
         </TableCell>
@@ -83,13 +78,10 @@ const TableRowComponent = memo(
             variant="outlined"
             size="small"
             type="number"
-            inputRef={amountRef}
-            defaultValue={row.amount}
+            value={row.amount}
             placeholder="금액"
             sx={cellInputSx}
-            onBlur={() =>
-              onFieldChange(row.id, "amount", amountRef.current?.value ?? "")
-            }
+            onChange={(e) => onFieldChange(row.id, "amount", e.target.value)}
           />
         </TableCell>
         <TableCell sx={cellSx}>
@@ -98,19 +90,12 @@ const TableRowComponent = memo(
             select
             variant="outlined"
             size="small"
-            inputRef={categoryRef}
-            defaultValue={row.category}
+            value={row.category}
             SelectProps={{
               native: true,
             }}
             sx={cellInputSx}
-            onBlur={() =>
-              onFieldChange(
-                row.id,
-                "category",
-                categoryRef.current?.value ?? "",
-              )
-            }
+            onChange={(e) => onFieldChange(row.id, "category", e.target.value)}
           >
             <option value="">분류</option>
             {CATEGORIES.map((cat) => (
@@ -125,13 +110,10 @@ const TableRowComponent = memo(
             fullWidth
             variant="outlined"
             size="small"
-            inputRef={memoRef}
-            defaultValue={row.memo}
+            value={row.memo}
             placeholder="메모"
             sx={cellInputSx}
-            onBlur={() =>
-              onFieldChange(row.id, "memo", memoRef.current?.value ?? "")
-            }
+            onChange={(e) => onFieldChange(row.id, "memo", e.target.value)}
           />
         </TableCell>
       </TableRow>
