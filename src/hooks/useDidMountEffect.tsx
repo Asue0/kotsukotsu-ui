@@ -1,14 +1,14 @@
 import { useEffect, useRef, EffectCallback, DependencyList } from "react";
 
 /**
- * 초기 마운트 시에는 실행되지 않고, 이후 업데이트 시에만 실행되는 useEffect 훅의 커스텀 버전입니다.
+ * 초기 마운트 시에는 실행되지 않고, 이후 업데이트 시에만 실행되는 useEffect 훅의 커스텀 버전
  *
  * effect 마운트 이후 실행될 함수 (클린업 함수 반환 가능)
  * deps 이펙트를 다시 실행해야 하는 종속성 배열
  */
 export function useDidMountEffect(
   effect: EffectCallback,
-  deps?: DependencyList
+  deps?: DependencyList,
 ): void {
   const didMount = useRef(false);
 

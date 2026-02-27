@@ -8,16 +8,16 @@ import { useDidMountEffect } from "@/hooks/useDidMountEffect";
 import CalendarType from "@/types/calendar/calendarType.type";
 
 const CalendarMain = () => {
-  const [mockDate, setMockDate] = useState(new Date()); // 임의로 날짜 설정
+  const [mockDate, setMockDate] = useState<Date>(new Date()); // 임의로 날짜 설정
 
   const currentYear = mockDate.getFullYear();
   const currentMonth = mockDate.getMonth(); // 주의) Date 타입에서 month는 0부터 시작함(0~11)
 
-  const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-
   const [calendar, setCalendar] = useState<CalendarType[]>(
     getCalendar(currentYear, currentMonth),
   );
+
+  const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
   console.log(currentYear);
   console.log(currentMonth);

@@ -29,14 +29,9 @@ const CATEGORIES = [
   { value: "etc", label: "기타" },
 ];
 
+/** 입력 폼 한줄 컴포넌트 */
 const TableRowComponent = memo(
   ({ row, onSelectChange, onDateChange, onFieldChange }: RowProps) => {
-    // 각 입력 필드의 ref (비제어 컴포넌트)
-    // const particularsRef = useRef<HTMLInputElement>(null);
-    // const amountRef = useRef<HTMLInputElement>(null);
-    // const categoryRef = useRef<HTMLSelectElement>(null);
-    // const memoRef = useRef<HTMLInputElement>(null);
-
     return (
       <TableRow>
         <TableCell sx={checkboxCellSx}>

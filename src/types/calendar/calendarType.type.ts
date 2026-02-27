@@ -1,5 +1,7 @@
+import TableRowData from "./recordTableType.type";
+
 interface CalendarType {
   date: Date;
-  data: string[] | null;
+  data: TableRowData | null;
 }
 export default CalendarType;

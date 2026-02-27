@@ -1,11 +1,12 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import { useState } from "react";
 import BudgetForm from "./BudgetForm";
+import TableRowData from "@/types/calendar/recordTableType.type";
 
 type DayBoxProps = {
   date: Date;
   isThisMonth: boolean;
-  data: string[] | null;
+  data: TableRowData | null;
 };
 
 // const DayBox: React.FC<DayBoxProps> = ({ day }) => {

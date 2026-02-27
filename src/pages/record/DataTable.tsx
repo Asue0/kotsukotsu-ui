@@ -19,7 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import TableRowData from "@/types/calendar/recordTableType.type";
 import TableRowComponent from "./TableRow";
 import { checkboxCellSx, headerCellSx } from "@/styles/record/tableStyle";
-import mockData from "@/mocks/recordData";
+import mockData from "@/mocks/recordMockData";
 
 // 저장용 데이터 타입 (selected 필드 제외)
 interface SaveData {
