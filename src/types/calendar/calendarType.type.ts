@@ -1,7 +1,6 @@
 import TableRowData from "./recordTableType.type";
 
-interface CalendarType {
-  date: Date;
-  data: TableRowData | null;
+interface CalendarDataType {
+  [date: string]: TableRowData[];
 }
-export default CalendarType;
+export default CalendarDataType;

@@ -3,35 +3,63 @@ import DayBox from "./DayBox";
 import getCalendar from "@/mocks/getCalendar";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import TableRowData from "@/types/calendar/recordTableType.type";
+import mockData from "@/mocks/recordMockData";
+import CalendarDataType from "@/types/calendar/calendarType.type";
+import dayjs from "dayjs";
 import { useDidMountEffect } from "@/hooks/useDidMountEffect";
-import CalendarType from "@/types/calendar/calendarType.type";
+
+// 2. 변환 로직 (DB 데이터를 Map으로 변환)
+const formatSchedules = (data: TableRowData[]): CalendarDataType => {
+  return data.reduce((acc, schedule) => {
+    const dateKey = schedule.date.format("YYYY-MM-DD"); // "2024-03-01" 형태로 포맷
+    if (!acc[dateKey]) acc[dateKey] = [];
+    acc[dateKey].push(schedule);
+    return acc;
+  }, {} as CalendarDataType);
+};
 
 const CalendarMain = () => {
-  const [mockDate, setMockDate] = useState<Date>(new Date()); // 임의로 날짜 설정
+  const [currentDate, setCurrentDate] = useState<Date>(new Date()); // 임의로 날짜 설정
 
-  const currentYear = mockDate.getFullYear();
-  const currentMonth = mockDate.getMonth(); // 주의) Date 타입에서 month는 0부터 시작함(0~11)
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth(); // 주의) Date 타입에서 month는 0부터 시작함(0~11)
 
-  const [calendar, setCalendar] = useState<CalendarType[]>(
-    getCalendar(currentYear, currentMonth),
-  );
+  const [calendar, setCalendar] = useState<Date[]>([]); // 각 달력의 날짜
+  const [schedules, setSchedules] = useState<TableRowData[]>([]); // DB에서 받아올 날짜별 데이터
+  const scheduleMap = useMemo(() => formatSchedules(schedules), [schedules]); // DB에서 받아온 날짜별 데이터 MAP으로 포맷팅
 
   const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-
-  console.log(currentYear);
-  console.log(currentMonth);
-
   const weekNum = calendar.length / 7;
 
+  /** 날짜별 데이터 패칭 함수 */
+  const fetchData = async () => {
+    try {
+      // fetch나 axios를 사용하여 API 엔드포인트에서 데이터를 가져옴
+      // const response = await fetch('https://api.example.com/posts');
+      // const data: TableRowData[] = await response.json();
+
+      // 상태 업데이트: 받아온 데이터를 state에 저장
+      const days = getCalendar(currentYear, currentMonth);
+      setCalendar(days);
+      setSchedules(mockData);
+      console.log("패치 작동중");
+    } catch (error) {
+      console.error("데이터 로드 실패:", error);
+    } finally {
+      console.log("끝"); // 에러 방지용
+    }
+  };
+
   const moveMonth = (isNextMonth: boolean) => {
-    if (isNextMonth) setMockDate(new Date(currentYear, currentMonth + 1));
-    else setMockDate(new Date(currentYear, currentMonth - 1));
+    if (isNextMonth) setCurrentDate(new Date(currentYear, currentMonth + 1));
+    else setCurrentDate(new Date(currentYear, currentMonth - 1));
   };
 
   useDidMountEffect(() => {
-    setCalendar(getCalendar(currentYear, currentMonth));
-  }, [mockDate]);
+    fetchData();
+  }, [currentDate]);
 
   return (
     <Box
@@ -84,19 +112,22 @@ const CalendarMain = () => {
         {/** 달력 날짜 */}
         {Array.from({ length: weekNum }).map((_, week) => (
           <Box display="flex" gap={1} key={week}>
-            {WEEKARR.map((_, index) => (
-              <DayBox
-                date={calendar[index + 7 * week].date}
-                // 이번 달인지 체크
-                isThisMonth={
-                  calendar[index + 7 * week].date.getMonth() === currentMonth
-                    ? true
-                    : false
-                }
-                data={calendar[index + 7 * week].data}
-                key={index}
-              />
-            ))}
+            {WEEKARR.map((_, index) => {
+              const day = calendar[index + 7 * week];
+              const dayKey = dayjs(day).format("YYYY-MM-DD");
+
+              const daySchedules = scheduleMap[dayKey] || [];
+
+              return (
+                <DayBox
+                  date={day}
+                  // 이번 달인지 체크
+                  isThisMonth={day.getMonth() === currentMonth ? true : false}
+                  data={daySchedules}
+                  key={index}
+                />
+              );
+            })}
           </Box>
         ))}
       </Box>

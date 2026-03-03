@@ -6,7 +6,7 @@ import TableRowData from "@/types/calendar/recordTableType.type";
 type DayBoxProps = {
   date: Date;
   isThisMonth: boolean;
-  data: TableRowData | null;
+  data: TableRowData[] | null;
 };
 
 // const DayBox: React.FC<DayBoxProps> = ({ day }) => {
@@ -54,7 +54,7 @@ const DayBox = (props: DayBoxProps) => {
         width={130}
         height={120}
         p={1}
-        bgcolor={props.data !== null ? "#d3ed7c" : ""}
+        bgcolor={props.data?.length !== 0 ? "#d3ed7c" : ""}
         sx={{
           border: "1px solid gray",
           borderRadius: "3px",
@@ -94,12 +94,14 @@ const DayBox = (props: DayBoxProps) => {
         >
           <Box display="flex" flexDirection="column" gap={1}>
             {/** 기존 메모 데이터 */}
-            {!props.data ? (
+            {props.data?.length === 0 ? (
               <Typography sx={{ mb: 4 }}>
                 해당 날짜에 기록이 없습니다.
               </Typography>
             ) : (
-              <Typography sx={{ mb: 4 }}>데이터가 있습니다.</Typography>
+              <Typography sx={{ mb: 4 }}>
+                {JSON.stringify(props.data)}
+              </Typography>
             )}
 
             {/** 새로운 데이터 입력 */}

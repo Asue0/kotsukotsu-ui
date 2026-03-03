@@ -3,7 +3,7 @@ import { Dayjs } from "dayjs";
 interface TableRowData {
   id: string;
   selected: boolean;
-  date: Dayjs | null;
+  date: Dayjs;
   particulars: string;
   amount: string;
   category: string;
