@@ -16,7 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import TableRowData from "@/types/calendar/recordTableType.type";
+import { TableRowDataType } from "@/types/calendar/recordTableType.type";
 import TableRowComponent from "./TableRow";
 import { checkboxCellSx, headerCellSx } from "@/styles/record/tableStyle";
 import mockData from "@/mocks/recordMockData";
@@ -40,7 +40,7 @@ const saveRecordApi = async (data: SaveData[]): Promise<void> => {
 };
 
 const DataTable = () => {
-  const [rows, setRows] = useState<TableRowData[]>([]);
+  const [rows, setRows] = useState<TableRowDataType[]>([]);
   const [resetKey, setResetKey] = useState(0); // 초기화 시 강제 재렌더용
 
   /** 데이터 페칭 함수 - 나중에 구현할 버전 */
@@ -80,7 +80,7 @@ const DataTable = () => {
   const handleFieldChange = useCallback(
     (
       id: string,
-      field: keyof Omit<TableRowData, "id" | "selected" | "date">,
+      field: keyof Omit<TableRowDataType, "id" | "selected" | "date">,
       value: string,
     ) => {
       setRows((prev) =>

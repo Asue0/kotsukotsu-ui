@@ -4,14 +4,14 @@ import getCalendar from "@/mocks/getCalendar";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { useMemo, useState } from "react";
-import TableRowData from "@/types/calendar/recordTableType.type";
+import { RecordDataType } from "@/types/calendar/recordTableType.type";
 import mockData from "@/mocks/recordMockData";
 import CalendarDataType from "@/types/calendar/calendarType.type";
 import dayjs from "dayjs";
 import { useDidMountEffect } from "@/hooks/useDidMountEffect";
 
 // 2. 변환 로직 (DB 데이터를 Map으로 변환)
-const formatSchedules = (data: TableRowData[]): CalendarDataType => {
+const formatSchedules = (data: RecordDataType[]): CalendarDataType => {
   return data.reduce((acc, schedule) => {
     const dateKey = schedule.date.format("YYYY-MM-DD"); // "2024-03-01" 형태로 포맷
     if (!acc[dateKey]) acc[dateKey] = [];
@@ -27,7 +27,7 @@ const CalendarMain = () => {
   const currentMonth = currentDate.getMonth(); // 주의) Date 타입에서 month는 0부터 시작함(0~11)
 
   const [calendar, setCalendar] = useState<Date[]>([]); // 각 달력의 날짜
-  const [schedules, setSchedules] = useState<TableRowData[]>([]); // DB에서 받아올 날짜별 데이터
+  const [schedules, setSchedules] = useState<RecordDataType[]>([]); // DB에서 받아올 날짜별 데이터
   const scheduleMap = useMemo(() => formatSchedules(schedules), [schedules]); // DB에서 받아온 날짜별 데이터 MAP으로 포맷팅
 
   const WEEKARR = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
