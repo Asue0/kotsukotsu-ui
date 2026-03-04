@@ -124,7 +124,7 @@ const CalendarMain = () => {
                   // 이번 달인지 체크
                   isThisMonth={day.getMonth() === currentMonth ? true : false}
                   data={daySchedules}
-                  key={index}
+                  key={JSON.stringify(day)}
                 />
               );
             })}

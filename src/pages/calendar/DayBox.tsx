@@ -1,30 +1,13 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import { useState } from "react";
 import BudgetForm from "./BudgetForm";
-import TableRowData from "@/types/calendar/recordTableType.type";
+import { RecordDataType } from "@/types/calendar/recordTableType.type";
 
 type DayBoxProps = {
   date: Date;
   isThisMonth: boolean;
-  data: TableRowData[] | null;
+  data: RecordDataType[] | null;
 };
-
-// const DayBox: React.FC<DayBoxProps> = ({ day }) => {
-//   const handleDayClick = () => {
-//     // 거래 입력 모달 열기
-//     openTransactionModal(day.date);
-//   };
-
-//   return (
-//     <Box onClick={handleDayClick} sx={{ cursor: 'pointer' }}>
-//       {/* 날짜 표시 */}
-//       <Typography>{day.date.getDate()}</Typography>
-
-//       {/* 해당 날짜의 거래 내역 요약 */}
-//       <TransactionSummary date={day.date} />
-//     </Box>
-//   );
-// };
 
 const DayBox = (props: DayBoxProps) => {
   /** popover 제어 */
