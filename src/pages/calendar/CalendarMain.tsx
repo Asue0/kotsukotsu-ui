@@ -10,7 +10,7 @@ import CalendarDataType from "@/types/calendar/calendarType.type";
 import dayjs from "dayjs";
 import { useDidMountEffect } from "@/hooks/useDidMountEffect";
 
-// 2. 변환 로직 (DB 데이터를 Map으로 변환)
+// 변환 로직 (DB 데이터를 Map으로 변환)
 const formatSchedules = (data: RecordDataType[]): CalendarDataType => {
   return data.reduce((acc, schedule) => {
     const dateKey = schedule.date.format("YYYY-MM-DD"); // "2024-03-01" 형태로 포맷

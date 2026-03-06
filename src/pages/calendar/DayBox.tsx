@@ -1,7 +1,11 @@
 import { Box, Button, Popover, Typography } from "@mui/material";
 import { useState } from "react";
-import BudgetForm from "./BudgetForm";
 import { RecordDataType } from "@/types/calendar/recordTableType.type";
+import {
+  modalBoxSx,
+  modalMemoSx,
+  modalPaperPropsSx,
+} from "@/styles/calendar/calendarStyle";
 
 type DayBoxProps = {
   date: Date;
@@ -27,10 +31,6 @@ const DayBox = (props: DayBoxProps) => {
     setPosition(null);
   };
 
-  /** 데이터 입력 제어 */
-
-  // const [amount, setAmount] = useState<number>(0);
-
   return (
     <>
       <Box
@@ -38,16 +38,7 @@ const DayBox = (props: DayBoxProps) => {
         height={120}
         p={1}
         bgcolor={props.data?.length !== 0 ? "#d3ed7c" : ""}
-        sx={{
-          border: "1px solid gray",
-          borderRadius: "3px",
-          position: "relative",
-          "&:hover": {
-            boxShadow: "4px 4px 12px rgba(0, 0, 0, 0.25)",
-          },
-          cursor: "pointer",
-          transition: "box-shadow 0.2s ease-in-out",
-        }}
+        sx={modalBoxSx}
         onClick={handleClick}
       >
         <Typography color={props.isThisMonth ? "" : "textDisabled"}>
@@ -58,7 +49,7 @@ const DayBox = (props: DayBoxProps) => {
       {props.isThisMonth ? (
         <Popover
           open={Boolean(position)}
-          // onClose={handleClose} // 메모의 바깥을 클릭하면 메모가 닫히게 됨 (현재는 주석 처리로 off중)
+          onClose={handleClose}
           anchorReference="anchorPosition"
           anchorPosition={
             position ? { top: position.top, left: position.left } : undefined
@@ -68,30 +59,28 @@ const DayBox = (props: DayBoxProps) => {
             horizontal: "left",
           }}
           PaperProps={{
-            sx: {
-              backgroundColor: "#FFF9C4",
-              padding: 2,
-              width: 300,
-            },
+            sx: modalPaperPropsSx,
           }}
         >
-          <Box display="flex" flexDirection="column" gap={1}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            width={"100%"}
+            gap={1}
+            sx={{ minWidth: 0 }} // Flex layout에서 가끔 minWidth 때문에 발생하는 overflow 오류 방지용
+          >
             {/** 기존 메모 데이터 */}
             {props.data?.length === 0 ? (
               <Typography sx={{ mb: 4 }}>
                 해당 날짜에 기록이 없습니다.
               </Typography>
             ) : (
-              <Typography sx={{ mb: 4 }}>
+              <Typography sx={modalMemoSx}>
                 {JSON.stringify(props.data)}
               </Typography>
             )}
 
-            {/** 새로운 데이터 입력 */}
-            <BudgetForm date={props.date} />
-
             <Box display="flex" justifyContent="flex-end" gap={0.5}>
-              <Button>저장</Button>
               <Button onClick={handleClose}>닫기</Button>
             </Box>
           </Box>
