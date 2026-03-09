@@ -18,9 +18,13 @@ export const modalPaperPropsSx = {
   overflowX: "hidden",
 };
 
+export const memoBoxSx = {
+  minWidth: 0, // Flex layout에서 가끔 minWidth 때문에 발생하는 overflow 오류 방지용
+  textAlign: "center",
+};
+
 // 강제 줄바꿈을 위한 설정
 export const modalMemoSx = {
-  mb: 4,
   whiteSpace: "pre-wrap", // 줄바꿈 유지
   wordBreak: "break-word", // 긴 단어 강제 줄바꿈
   overflowWrap: "break-word", // width 넘어가기 방지

@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { TableRowDataType } from "@/types/calendar/recordTableType.type";
 import TableRowComponent from "./TableRow";
 import { checkboxCellSx, headerCellSx } from "@/styles/record/tableStyle";
@@ -206,7 +207,7 @@ const DataTable = () => {
             </Button>
             <Button
               variant="outlined"
-              startIcon={<AddIcon />}
+              startIcon={<RemoveIcon />}
               onClick={handleDeleteLastOne}
             >
               마지막 항목 제거

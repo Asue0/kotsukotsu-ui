@@ -2,6 +2,7 @@ import { Box, Button, Popover, Typography } from "@mui/material";
 import { useState } from "react";
 import { RecordDataType } from "@/types/calendar/recordTableType.type";
 import {
+  memoBoxSx,
   modalBoxSx,
   modalMemoSx,
   modalPaperPropsSx,
@@ -67,17 +68,21 @@ const DayBox = (props: DayBoxProps) => {
             flexDirection="column"
             width={"100%"}
             gap={1}
-            sx={{ minWidth: 0 }} // Flex layout에서 가끔 minWidth 때문에 발생하는 overflow 오류 방지용
+            sx={memoBoxSx}
           >
             {/** 기존 메모 데이터 */}
             {props.data?.length === 0 ? (
-              <Typography sx={{ mb: 4 }}>
+              <Typography sx={modalMemoSx}>
                 해당 날짜에 기록이 없습니다.
               </Typography>
             ) : (
-              <Typography sx={modalMemoSx}>
-                {JSON.stringify(props.data)}
-              </Typography>
+              props.data?.map((data) => {
+                return (
+                  <Typography key={data.id} sx={modalMemoSx}>
+                    {JSON.stringify(data)}
+                  </Typography>
+                );
+              })
             )}
 
             <Box display="flex" justifyContent="flex-end" gap={0.5}>

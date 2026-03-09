@@ -22,11 +22,11 @@ const formatSchedules = (data: RecordDataType[]): CalendarDataType => {
 
 const CalendarMain = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date()); // 임의로 날짜 설정
-
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth(); // 주의) Date 타입에서 month는 0부터 시작함(0~11)
 
   const [calendar, setCalendar] = useState<Date[]>([]); // 각 달력의 날짜
+
   const [schedules, setSchedules] = useState<RecordDataType[]>([]); // DB에서 받아올 날짜별 데이터
   const scheduleMap = useMemo(() => formatSchedules(schedules), [schedules]); // DB에서 받아온 날짜별 데이터 MAP으로 포맷팅
 
