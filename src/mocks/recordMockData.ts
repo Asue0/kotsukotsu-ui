@@ -1,7 +1,7 @@
-import TableRowData from "@/types/calendar/recordTableType.type";
+import { RecordDataType } from "@/types/calendar/recordTableType.type";
 import dayjs from "dayjs";
 
-const mockData: TableRowData[] = [
+const mockData: RecordDataType[] = [
   {
     id: "1",
     selected: false,
@@ -19,6 +19,69 @@ const mockData: TableRowData[] = [
     amount: "-10000",
     category: "food",
     memo: "초기데이터2 입니다.",
+  },
+  {
+    id: "3",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터2 입니다.",
+  },
+  {
+    id: "4",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터3 입니다.",
+  },
+  {
+    id: "5",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터4 입니다.",
+  },
+  {
+    id: "6",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터5 입니다.",
+  },
+  {
+    id: "7",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터6 입니다.",
+  },
+  {
+    id: "8",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터7 입니다.",
+  },
+  {
+    id: "9",
+    selected: false,
+    date: dayjs(),
+    particulars: "돈까스",
+    amount: "-10000",
+    category: "food",
+    memo: "초기데이터8 입니다.",
   },
 ];
 
