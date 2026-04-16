@@ -70,31 +70,38 @@ const CalendarMain = () => {
       flexDirection="column"
       gap={2}
     >
-      <Typography variant="h3">
-        {currentYear}년 {currentMonth + 1}월
-      </Typography>
-
       <Box display="flex" flexDirection="column" gap={1}>
-        {/** 달력 이동 버튼 */}
-        <Box display="flex" flexDirection="row" justifyContent="end">
-          <IconButton
-            size="large"
-            onClick={() => {
-              moveMonth(false);
-            }}
-          >
-            <ArrowCircleLeftIcon fontSize="inherit" />
-          </IconButton>
-          <IconButton
-            size="large"
-            onClick={() => {
-              moveMonth(true);
-            }}
-          >
-            <ArrowCircleRightIcon fontSize="inherit" />
-          </IconButton>
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="end"
+        >
+          {/** 날짜 타이틀 */}
+          <Box display="flex" flexDirection="row" alignItems="end" gap={1}>
+            <Typography variant="h2">{currentMonth + 1}월</Typography>
+            <Typography variant="h5">{currentYear}년</Typography>
+          </Box>
+          {/** 달력 이동 버튼 */}
+          <Box display="flex" flexDirection="row" justifyContent="end">
+            <IconButton
+              size="large"
+              onClick={() => {
+                moveMonth(false);
+              }}
+            >
+              <ArrowCircleLeftIcon fontSize="inherit" />
+            </IconButton>
+            <IconButton
+              size="large"
+              onClick={() => {
+                moveMonth(true);
+              }}
+            >
+              <ArrowCircleRightIcon fontSize="inherit" />
+            </IconButton>
+          </Box>
         </Box>
-
         {/** 요일 버튼 */}
         <Box display="flex" flexDirection="row" gap={1}>
           {WEEKARR.map((day) => (
