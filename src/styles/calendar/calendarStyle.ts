@@ -1,4 +1,7 @@
 export const modalBoxSx = {
+  width: "130px",
+  height: "120px",
+  padding: "5px",
   border: "1px solid gray",
   borderRadius: "3px",
   position: "relative",
@@ -9,7 +12,7 @@ export const modalBoxSx = {
   transition: "box-shadow 0.2s ease-in-out",
 };
 
-export const modalPaperPropsSx = {
+export const memoPaperPropsSx = {
   backgroundColor: "#FFF9C4",
   padding: 2,
   width: 300,
@@ -24,7 +27,7 @@ export const memoBoxSx = {
 };
 
 // 강제 줄바꿈을 위한 설정
-export const modalMemoSx = {
+export const memoTextSx = {
   whiteSpace: "pre-wrap", // 줄바꿈 유지
   wordBreak: "break-word", // 긴 단어 강제 줄바꿈
   overflowWrap: "break-word", // width 넘어가기 방지

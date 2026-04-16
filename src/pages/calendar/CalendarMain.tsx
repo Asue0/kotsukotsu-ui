@@ -122,9 +122,7 @@ const CalendarMain = () => {
             {WEEKARR.map((_, index) => {
               const day = calendar[index + 7 * week];
               const dayKey = dayjs(day).format("YYYY-MM-DD");
-
               const daySchedules = scheduleMap[dayKey] || [];
-
               return (
                 <DayBox
                   date={day}

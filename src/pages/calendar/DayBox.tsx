@@ -1,12 +1,9 @@
-import { Box, Button, Popover, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { RecordDataType } from "@/types/calendar/recordTableType.type";
-import {
-  memoBoxSx,
-  modalBoxSx,
-  modalMemoSx,
-  modalPaperPropsSx,
-} from "@/styles/calendar/calendarStyle";
+import { modalBoxSx } from "@/styles/calendar/calendarStyle";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import DayMemo from "./DayMemo";
 
 type DayBoxProps = {
   date: Date;
@@ -15,81 +12,54 @@ type DayBoxProps = {
 };
 
 const DayBox = (props: DayBoxProps) => {
-  /** popover 제어 */
+  /** memo(popover) 제어 */
   const [position, setPosition] = useState<{
     top: number;
     left: number;
   } | null>(null);
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMemoClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.stopPropagation(); // 이벤트 버블링을 막기 위함
     setPosition({
       top: e.clientY,
       left: e.clientX,
     });
   };
 
-  const handleClose = () => {
+  const handleMemoClose = () => {
     setPosition(null);
   };
 
   return (
     <>
       <Box
-        width={130}
-        height={120}
-        p={1}
         bgcolor={props.data?.length !== 0 ? "#d3ed7c" : ""}
         sx={modalBoxSx}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
         <Typography color={props.isThisMonth ? "" : "textDisabled"}>
           {props.date.getDate()}
         </Typography>
+        <SearchOutlinedIcon
+          sx={{
+            visibility: props.isThisMonth ? "" : "hidden",
+            position: "absolute", // 위치 조정을 위해 absolute를 사용
+            bottom: 2,
+            right: 2,
+            borderRadius: "50%",
+            opacity: 0.5,
+          }}
+          onClick={handleMemoClick}
+        />
       </Box>
       {/** 메모 영역 */}
       {props.isThisMonth ? (
-        <Popover
-          open={Boolean(position)}
-          onClose={handleClose}
-          anchorReference="anchorPosition"
-          anchorPosition={
-            position ? { top: position.top, left: position.left } : undefined
-          }
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          PaperProps={{
-            sx: modalPaperPropsSx,
-          }}
-        >
-          <Box
-            display="flex"
-            flexDirection="column"
-            width={"100%"}
-            gap={1}
-            sx={memoBoxSx}
-          >
-            {/** 기존 메모 데이터 */}
-            {props.data?.length === 0 ? (
-              <Typography sx={modalMemoSx}>
-                해당 날짜에 기록이 없습니다.
-              </Typography>
-            ) : (
-              props.data?.map((data) => {
-                return (
-                  <Typography key={data.id} sx={modalMemoSx}>
-                    {JSON.stringify(data)}
-                  </Typography>
-                );
-              })
-            )}
-
-            <Box display="flex" justifyContent="flex-end" gap={0.5}>
-              <Button onClick={handleClose}>닫기</Button>
-            </Box>
-          </Box>
-        </Popover>
+        <DayMemo
+          position={position}
+          handleMemoClick={handleMemoClick}
+          handleMemoClose={handleMemoClose}
+          data={props.data}
+        />
       ) : (
         <></>
       )}
