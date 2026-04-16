@@ -11,8 +11,8 @@ type DayMemoProps = {
     top: number;
     left: number;
   } | null;
-  handleMemoClick: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
-  handleMemoClose: () => void;
+  handleClick: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  handleClose: () => void;
   data: RecordDataType[] | null;
 };
 
@@ -20,7 +20,7 @@ const DayMemo = (props: DayMemoProps) => {
   return (
     <Popover
       open={Boolean(props.position)}
-      onClose={props.handleMemoClose}
+      onClose={props.handleClose}
       anchorReference="anchorPosition"
       anchorPosition={
         props.position
@@ -56,7 +56,7 @@ const DayMemo = (props: DayMemoProps) => {
         )}
 
         <Box display="flex" justifyContent="flex-end" gap={0.5}>
-          <Button onClick={props.handleMemoClose}>닫기</Button>
+          <Button onClick={props.handleClose}>닫기</Button>
         </Box>
       </Box>
     </Popover>

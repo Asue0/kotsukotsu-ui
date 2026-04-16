@@ -4,6 +4,7 @@ import { RecordDataType } from "@/types/calendar/recordTableType.type";
 import { modalBoxSx } from "@/styles/calendar/calendarStyle";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import DayMemo from "./DayMemo";
+import { DayDialog } from "./DayDialog";
 
 type DayBoxProps = {
   date: Date;
@@ -12,12 +13,25 @@ type DayBoxProps = {
 };
 
 const DayBox = (props: DayBoxProps) => {
-  /** memo(popover) 제어 */
+  // modal
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  // memo 등장 위치 관련
   const [position, setPosition] = useState<{
     top: number;
     left: number;
   } | null>(null);
 
+  /** 모달(dialog) 제어 */
+  const handleDialogClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  /** memo(popover) 제어 */
   const handleMemoClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation(); // 이벤트 버블링을 막기 위함
     setPosition({
@@ -35,7 +49,7 @@ const DayBox = (props: DayBoxProps) => {
       <Box
         bgcolor={props.data?.length !== 0 ? "#d3ed7c" : ""}
         sx={modalBoxSx}
-        // onClick={handleClick}
+        onClick={handleDialogClickOpen}
       >
         <Typography color={props.isThisMonth ? "" : "textDisabled"}>
           {props.date.getDate()}
@@ -52,12 +66,17 @@ const DayBox = (props: DayBoxProps) => {
           onClick={handleMemoClick}
         />
       </Box>
+      <DayDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        data={props.data}
+      />
       {/** 메모 영역 */}
       {props.isThisMonth ? (
         <DayMemo
           position={position}
-          handleMemoClick={handleMemoClick}
-          handleMemoClose={handleMemoClose}
+          handleClick={handleMemoClick}
+          handleClose={handleMemoClose}
           data={props.data}
         />
       ) : (
