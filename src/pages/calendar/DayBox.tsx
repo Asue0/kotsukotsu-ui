@@ -9,10 +9,12 @@ import { DayDialog } from "./DayDialog";
 type DayBoxProps = {
   date: Date;
   isThisMonth: boolean;
-  data: RecordDataType[] | null;
+  data: RecordDataType[];
 };
 
 const DayBox = (props: DayBoxProps) => {
+  const { date, isThisMonth, data } = props;
+
   // modal
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
@@ -47,16 +49,16 @@ const DayBox = (props: DayBoxProps) => {
   return (
     <>
       <Box
-        bgcolor={props.data?.length !== 0 ? "#d3ed7c" : ""}
+        bgcolor={data.length !== 0 ? "#d3ed7c" : ""}
         sx={modalBoxSx}
         onClick={handleDialogClickOpen}
       >
-        <Typography color={props.isThisMonth ? "" : "textDisabled"}>
-          {props.date.getDate()}
+        <Typography color={isThisMonth ? "" : "textDisabled"}>
+          {date.getDate()}
         </Typography>
         <SearchOutlinedIcon
           sx={{
-            visibility: props.isThisMonth ? "" : "hidden",
+            visibility: isThisMonth ? "" : "hidden",
             position: "absolute", // 위치 조정을 위해 absolute를 사용
             bottom: 2,
             right: 2,
@@ -69,15 +71,16 @@ const DayBox = (props: DayBoxProps) => {
       <DayDialog
         open={dialogOpen}
         onClose={handleDialogClose}
-        data={props.data}
+        data={data}
+        date={date}
       />
       {/** 메모 영역 */}
-      {props.isThisMonth ? (
+      {isThisMonth ? (
         <DayMemo
           position={position}
           handleClick={handleMemoClick}
           handleClose={handleMemoClose}
-          data={props.data}
+          data={data}
         />
       ) : (
         <></>

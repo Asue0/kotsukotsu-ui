@@ -12,6 +12,7 @@ export const modalBoxSx = {
   transition: "box-shadow 0.2s ease-in-out",
 };
 
+/** 메모 박스 스타일 */
 export const memoPaperPropsSx = {
   backgroundColor: "#FFF9C4",
   padding: 2,
@@ -31,4 +32,36 @@ export const memoTextSx = {
   whiteSpace: "pre-wrap", // 줄바꿈 유지
   wordBreak: "break-word", // 긴 단어 강제 줄바꿈
   overflowWrap: "break-word", // width 넘어가기 방지
+};
+
+/** 다이알로그 스타일 */
+export const dialogContainerBoxSx = {
+  width: 800,
+  height: 600,
+  bgcolor: "lightblue",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+export const dialogRecordDataBoxSx = {
+  width: "35%",
+  p: 1,
+  bgcolor: "white",
+  display: "flex",
+  flexDirection: "column",
+  // justifyContent: "flex-start", // center로 하면 텍스트 윗부분이 잘림
+  alignItems: "center",
+  overflowY: "auto", // 세로 스크롤
+  overflowX: "hidden",
+};
+
+export const dialogDetailDataBoxSx = {
+  width: "65%",
+  p: 1,
+  bgcolor: "white",
+  display: "flex",
+  flexDirection: "column",
+  // justifyContent: "center",
+  alignItems: "center",
 };
