@@ -7,6 +7,7 @@ import {
 import { RecordDataType } from "@/types/calendar/recordTableType.type";
 import { Box, Dialog, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import ImageUpload from "./ImageUpload";
 
 export interface DayDialogProps {
   open: boolean;
@@ -18,9 +19,11 @@ export interface DayDialogProps {
 export const DayDialog = (props: DayDialogProps) => {
   const { onClose, open, data, date } = props;
 
+  /** 이미지 업로드 관련 */
+
   return (
-    /** Dialog 크기
-     *  "xs" (≈444px)
+    /* Dialog 크기
+        "xs" (≈444px)
         "sm" (≈600px) ← 기본
         "md" (≈900px)
         "lg" (≈1200px)
@@ -44,6 +47,7 @@ export const DayDialog = (props: DayDialogProps) => {
           </Box>
           <Box sx={dialogDetailDataBoxSx}>
             <h2>{dayjs(date).format("MM/DD/YYYY")}</h2>
+            <ImageUpload />
           </Box>
         </Box>
       </Box>
