@@ -16,6 +16,7 @@ type DayMemoProps = {
   data: RecordDataType[] | null;
 };
 
+/** 날짜 메모 컴포넌트 */
 const DayMemo = (props: DayMemoProps) => {
   return (
     <Popover

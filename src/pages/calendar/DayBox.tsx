@@ -12,6 +12,7 @@ type DayBoxProps = {
   data: RecordDataType[];
 };
 
+/** 날짜 컴포넌트 */
 const DayBox = (props: DayBoxProps) => {
   const { date, isThisMonth, data } = props;
 

@@ -16,6 +16,7 @@ export interface DayDialogProps {
   date: Date;
 }
 
+/** 다이알로그 컴포넌트 */
 export const DayDialog = (props: DayDialogProps) => {
   const { onClose, open, data, date } = props;
 

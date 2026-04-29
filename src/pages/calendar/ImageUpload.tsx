@@ -1,10 +1,12 @@
 import { useState, ChangeEvent } from "react";
 import { Button, Box } from "@mui/material";
 
+/** 이미지 업로드 컴포넌트 */
 const ImageUpload = () => {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
+  // 이미지 업로드 제어
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -25,13 +27,20 @@ const ImageUpload = () => {
     setPreview(URL.createObjectURL(file));
   };
 
+  // 이미지 클릭 시 원본 크기 이미지 창 띄우기
+  const handleClick = () => {
+    if (!preview) return;
+
+    window.open(preview, "_blank");
+  };
+
   return (
     <Box
       sx={{
         display: "flex",
         mt: 1,
         flexDirection: "column",
-        alignItems: "end",
+        alignItems: "center",
         gap: 1,
       }}
     >
@@ -50,6 +59,7 @@ const ImageUpload = () => {
           <img
             src={preview}
             alt="preview"
+            onClick={handleClick}
             style={{ width: "100%", height: "auto", display: "block" }}
           />
         ) : (
