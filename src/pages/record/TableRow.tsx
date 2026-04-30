@@ -22,11 +22,12 @@ interface RowProps {
 
 const CATEGORIES = [
   { value: "income", label: "수입" },
-  { value: "food", label: "식비" },
-  { value: "transport", label: "교통비" },
-  { value: "entertainment", label: "여가" },
-  { value: "shopping", label: "쇼핑" },
-  { value: "etc", label: "기타" },
+  // { value: "food", label: "식비" },
+  // { value: "transport", label: "교통비" },
+  // { value: "entertainment", label: "여가" },
+  // { value: "shopping", label: "쇼핑" },
+  // { value: "etc", label: "기타" },
+  { value: "expense", label: "지출" },
 ];
 
 /** 입력 폼 한줄 컴포넌트 */

@@ -50,7 +50,7 @@ export const dialogRecordDataBoxSx = {
   bgcolor: "white",
   display: "flex",
   flexDirection: "column",
-  // justifyContent: "flex-start", // center로 하면 텍스트 윗부분이 잘림
+  // justifyContent: "center", // center로 하면 텍스트 윗부분이 잘림 (overflow 속성과 충돌)
   alignItems: "center",
   overflowY: "auto", // 세로 스크롤
   overflowX: "hidden",
@@ -64,4 +64,14 @@ export const dialogDetailDataBoxSx = {
   flexDirection: "column",
   // justifyContent: "center",
   alignItems: "center",
+  gap: 1,
+};
+
+export const dialogTextAreaBoxSx = {
+  width: "70%",
+  height: "35%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "right",
+  gap: 1,
 };

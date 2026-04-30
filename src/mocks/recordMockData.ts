@@ -17,7 +17,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터2 입니다.",
   },
   {
@@ -26,7 +26,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터2 입니다.",
   },
   {
@@ -35,7 +35,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터3 입니다.",
   },
   {
@@ -44,7 +44,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터4 입니다.",
   },
   {
@@ -53,7 +53,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터5 입니다.",
   },
   {
@@ -62,7 +62,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터6 입니다.",
   },
   {
@@ -71,7 +71,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터7 입니다.",
   },
   {
@@ -80,7 +80,7 @@ const mockData: RecordDataType[] = [
     date: dayjs(),
     particulars: "돈까스",
     amount: "-10000",
-    category: "food",
+    category: "expense",
     memo: "초기데이터8 입니다.",
   },
 ];

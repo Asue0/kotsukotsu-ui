@@ -18,6 +18,6 @@ export interface RecordDataType {
   date: Dayjs;
   particulars: string;
   amount: string;
-  category: string;
+  category: string; // income(수입) or expense(지출)
   memo: string;
 }
